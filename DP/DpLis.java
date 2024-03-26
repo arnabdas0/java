@@ -1,6 +1,9 @@
+package DP;
+
 import java.util.*;
+
 public class DpLis {
-    //apna-college
+    // apna-college
     public static int lcs(int arr[], int arr2[]) {
         int n = arr.length;
         int m = arr2.length;
@@ -44,7 +47,8 @@ public class DpLis {
 
         return lcs(arr, arr2);
     }
-    //chatgpt
+
+    // chatgpt
     public static int longestIncreasingSubsequence(int[] arr) {
         int n = arr.length;
         int[] dp = new int[n];
