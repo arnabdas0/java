@@ -1,15 +1,19 @@
+package Graph;
+
 import java.util.*;
+
 public class GraphTarjanBridge {
-    static class Edge{
+    static class Edge {
         int src, dest;
-        public Edge(int s, int d){
+
+        public Edge(int s, int d) {
             this.src = s;
             this.dest = d;
         }
     }
 
-    public static void createGraph(ArrayList<Edge> graph[]){
-        for(int i=0; i<graph.length; i++){
+    public static void createGraph(ArrayList<Edge> graph[]) {
+        for (int i = 0; i < graph.length; i++) {
             graph[i] = new ArrayList<>();
         }
 
@@ -34,41 +38,42 @@ public class GraphTarjanBridge {
         graph[5].add(new Edge(5, 4));
     }
 
-    public static void dfs(ArrayList<Edge> graph[], int curr, int par, int dt[], int low[], boolean vis[], int time){
+    public static void dfs(ArrayList<Edge> graph[], int curr, int par, int dt[], int low[], boolean vis[], int time) {
         vis[curr] = true;
         dt[curr] = low[curr] = ++time;
 
-        for(int i=0; i<graph[curr].size(); i++){
+        for (int i = 0; i < graph[curr].size(); i++) {
             Edge e = graph[curr].get(i);
             int neigh = e.dest;
-            if(neigh == par){
+            if (neigh == par) {
                 continue;
-            }else if(!vis[neigh]){
+            } else if (!vis[neigh]) {
                 dfs(graph, neigh, curr, dt, low, vis, time);
                 low[curr] = Math.min(low[curr], low[neigh]);
-                if(dt[curr]<low[neigh]){
-                    System.out.println("Bridge : "+curr+" ------ "+neigh);
+                if (dt[curr] < low[neigh]) {
+                    System.out.println("Bridge : " + curr + " ------ " + neigh);
                 }
-            }else{
+            } else {
                 low[curr] = Math.min(low[curr], dt[neigh]);
             }
         }
     }
 
-    public static void tarjanBridge(ArrayList<Edge> graph[], int V){//O(V+E)
+    public static void tarjanBridge(ArrayList<Edge> graph[], int V) {// O(V+E)
         int dt[] = new int[V];
         int low[] = new int[V];
         int time = 0;
         boolean vis[] = new boolean[V];
 
-        for(int i=0; i<V; i++){
-            if(!vis[i]){
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) {
                 dfs(graph, i, -1, dt, low, vis, time);
             }
         }
     }
+
     public static void main(String[] args) {
-        int V=6;
+        int V = 6;
         @SuppressWarnings("unchecked")
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);

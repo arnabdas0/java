@@ -1,16 +1,20 @@
+package Graph;
+
 import java.util.*;
+
 public class GraphDijkstra {
-    static class Edge{
+    static class Edge {
         int src, dest, wt;
-        public Edge(int s, int d, int w){
+
+        public Edge(int s, int d, int w) {
             this.src = s;
             this.dest = d;
             this.wt = w;
         }
     }
 
-    public static void createGraph(ArrayList<Edge>[] graph){
-        for(int i=0; i<graph.length; i++){
+    public static void createGraph(ArrayList<Edge>[] graph) {
+        for (int i = 0; i < graph.length; i++) {
             graph[i] = new ArrayList<>();
         }
 
@@ -21,65 +25,67 @@ public class GraphDijkstra {
         graph[1].add(new Edge(1, 3, 7));
 
         graph[2].add(new Edge(2, 4, 3));
-        
+
         graph[3].add(new Edge(3, 5, 1));
-        
+
         graph[4].add(new Edge(4, 3, 2));
         graph[4].add(new Edge(4, 5, 5));
     }
 
-    static class Pair implements Comparable<Pair>{
+    static class Pair implements Comparable<Pair> {
         int n, path;
-        public Pair(int n, int path){
+
+        public Pair(int n, int path) {
             this.n = n;
             this.path = path;
         }
 
         @Override
-        public int compareTo(Pair p2){
-            return this.path-p2.path;//path based sorting for my pairs
+        public int compareTo(Pair p2) {
+            return this.path - p2.path;// path based sorting for my pairs
         }
     }
 
-    public static void dijkstra(ArrayList<Edge>[] graph, int src){
-        int dist[] = new int[graph.length];//dist[i] -> distance src to i
-        for(int i=0; i<graph.length; i++){
-            if(i!=src){
-                dist[i] = Integer.MAX_VALUE;//+infinity
+    public static void dijkstra(ArrayList<Edge>[] graph, int src) {
+        int dist[] = new int[graph.length];// dist[i] -> distance src to i
+        for (int i = 0; i < graph.length; i++) {
+            if (i != src) {
+                dist[i] = Integer.MAX_VALUE;// +infinity
             }
         }
 
         boolean vis[] = new boolean[graph.length];
         PriorityQueue<Pair> pq = new PriorityQueue<>();
         pq.add(new Pair(src, 0));
-        //loop
-        while(!pq.isEmpty()){
+        // loop
+        while (!pq.isEmpty()) {
             Pair curr = pq.remove();
-            if(!vis[curr.n]){
+            if (!vis[curr.n]) {
                 vis[curr.n] = true;
-                //neighbours
-                for(int i=0; i<graph[curr.n].size(); i++){
+                // neighbours
+                for (int i = 0; i < graph[curr.n].size(); i++) {
                     Edge e = graph[curr.n].get(i);
                     int u = e.src;
                     int v = e.dest;
                     int wt = e.wt;
 
-                    if(dist[u]+wt < dist[v]){
-                        dist[v] = dist[u]+wt;//update distance src to v
+                    if (dist[u] + wt < dist[v]) {
+                        dist[v] = dist[u] + wt;// update distance src to v
                         pq.add(new Pair(v, dist[v]));
                     }
                 }
             }
         }
 
-        //print all source to vertices shortest distance
-        for(int i=0; i<dist.length; i++){
-            System.out.print(dist[i]+" ");
+        // print all source to vertices shortest distance
+        for (int i = 0; i < dist.length; i++) {
+            System.out.print(dist[i] + " ");
         }
         System.out.println();
     }
+
     public static void main(String[] args) {
-        int V=6;
+        int V = 6;
         @SuppressWarnings("unchecked")
         ArrayList<Edge>[] graph = new ArrayList[V];
         createGraph(graph);

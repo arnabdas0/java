@@ -1,18 +1,22 @@
+package Graph;
+
 import java.util.*;
+
 public class GraphBfsDfs {
-    static class Edge{
+    static class Edge {
         int src;
         int dest;
         int wt;
-        public Edge(int s, int d, int w){
+
+        public Edge(int s, int d, int w) {
             this.src = s;
             this.dest = d;
             this.wt = w;
         }
     }
 
-    static void createGraph(ArrayList<Edge> graph[]){
-        for(int i=0; i<graph.length; i++){
+    static void createGraph(ArrayList<Edge> graph[]) {
+        for (int i = 0; i < graph.length; i++) {
             graph[i] = new ArrayList<>();
         }
 
@@ -32,7 +36,7 @@ public class GraphBfsDfs {
         graph[4].add(new Edge(4, 2, 1));
         graph[4].add(new Edge(4, 3, 1));
         graph[4].add(new Edge(4, 5, 1));
-        
+
         graph[5].add(new Edge(5, 3, 1));
         graph[5].add(new Edge(5, 4, 1));
         graph[5].add(new Edge(5, 6, 1));
@@ -40,29 +44,29 @@ public class GraphBfsDfs {
         graph[6].add(new Edge(6, 5, 1));
     }
 
-    public static void bfs(ArrayList<Edge> graph[]){
+    public static void bfs(ArrayList<Edge> graph[]) {
         boolean vis[] = new boolean[graph.length];
 
-        for(int i=0; i<graph.length; i++){
-            if(!vis[i]){
+        for (int i = 0; i < graph.length; i++) {
+            if (!vis[i]) {
                 bfsUtil(graph, vis);
             }
         }
     }
 
-    public static void bfsUtil(ArrayList<Edge> graph[], boolean vis[]){
-        //O(V+E)->using adjacency list
-        //O(V^2)->using adjacency matrix(for this we doesn't use it)
+    public static void bfsUtil(ArrayList<Edge> graph[], boolean vis[]) {
+        // O(V+E)->using adjacency list
+        // O(V^2)->using adjacency matrix(for this we doesn't use it)
         Queue<Integer> q = new LinkedList<>();
         q.add(0);
 
-        while(!q.isEmpty()){
+        while (!q.isEmpty()) {
             int curr = q.remove();
 
-            if(!vis[curr]){
-                System.out.print(curr+" ");
+            if (!vis[curr]) {
+                System.out.print(curr + " ");
                 vis[curr] = true;
-                for(int i=0; i<graph[curr].size(); i++){
+                for (int i = 0; i < graph[curr].size(); i++) {
                     Edge e = graph[curr].get(i);
                     q.add(e.dest);
                 }
@@ -70,46 +74,47 @@ public class GraphBfsDfs {
         }
     }
 
-    public static void dfs(ArrayList<Edge> graph[]){
+    public static void dfs(ArrayList<Edge> graph[]) {
         boolean vis[] = new boolean[graph.length];
 
-        for(int i=0; i<graph.length; i++){
-            if(!vis[i]){
+        for (int i = 0; i < graph.length; i++) {
+            if (!vis[i]) {
                 dfsUtil(graph, i, vis);
             }
         }
     }
 
-    public static void dfsUtil(ArrayList<Edge> graph[], int curr, boolean vis[]){
-        //O(V+E)
-        //visit
+    public static void dfsUtil(ArrayList<Edge> graph[], int curr, boolean vis[]) {
+        // O(V+E)
+        // visit
         System.out.print(curr + " ");
         vis[curr] = true;
 
-        for(int i=0; i<graph[curr].size(); i++){
+        for (int i = 0; i < graph[curr].size(); i++) {
             Edge e = graph[curr].get(i);
-            if(!vis[e.dest]){
+            if (!vis[e.dest]) {
                 dfsUtil(graph, e.dest, vis);
             }
         }
     }
 
-    //O(V+E)
-    public static boolean hasPath(ArrayList<Edge>[] graph, int src, int dest, boolean vis[]){
-        if(src == dest){
+    // O(V+E)
+    public static boolean hasPath(ArrayList<Edge>[] graph, int src, int dest, boolean vis[]) {
+        if (src == dest) {
             return true;
         }
 
         vis[src] = true;
 
-        for(int i=0; i<graph[src].size(); i++){
+        for (int i = 0; i < graph[src].size(); i++) {
             Edge e = graph[src].get(i);
-            if(!vis[e.dest] && hasPath(graph, e.dest, dest, vis)){
+            if (!vis[e.dest] && hasPath(graph, e.dest, dest, vis)) {
                 return true;
             }
         }
         return false;
     }
+
     public static void main(String[] args) {
         int V = 7;
         @SuppressWarnings("unchecked")

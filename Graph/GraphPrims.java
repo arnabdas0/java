@@ -1,16 +1,20 @@
+package Graph;
+
 import java.util.*;
+
 public class GraphPrims {
-    static class Edge{
+    static class Edge {
         int src, dest, wt;
-        public Edge(int s, int d, int w){
+
+        public Edge(int s, int d, int w) {
             this.src = s;
             this.dest = d;
             this.wt = w;
         }
     }
 
-    public static void createGraph(ArrayList<Edge>[] graph){
-        for(int i=0; i<graph.length; i++){
+    public static void createGraph(ArrayList<Edge>[] graph) {
+        for (int i = 0; i < graph.length; i++) {
             graph[i] = new ArrayList<>();
         }
 
@@ -23,49 +27,52 @@ public class GraphPrims {
 
         graph[2].add(new Edge(2, 0, 15));
         graph[2].add(new Edge(2, 3, 50));
-        
+
         graph[3].add(new Edge(3, 0, 30));
         graph[3].add(new Edge(3, 1, 40));
         graph[3].add(new Edge(3, 2, 50));
     }
 
-    static class Pair implements Comparable<Pair>{
+    static class Pair implements Comparable<Pair> {
         int v;
         int cost;
-        public Pair(int v, int c){
+
+        public Pair(int v, int c) {
             this.v = v;
             this.cost = c;
         }
 
         @Override
-        public int compareTo(Pair p2){
+        public int compareTo(Pair p2) {
             return this.cost - p2.cost;
         }
     }
-    //O(ElogE)
-    public static void mst(ArrayList<Edge>[] graph){
+
+    // O(ElogE)
+    public static void mst(ArrayList<Edge>[] graph) {
         boolean vis[] = new boolean[graph.length];
         PriorityQueue<Pair> pq = new PriorityQueue<>();
         pq.add(new Pair(0, 0));
-        int finalCost = 0;//MST cost/final min cost
+        int finalCost = 0;// MST cost/final min cost
 
-        while(!pq.isEmpty()){
+        while (!pq.isEmpty()) {
             Pair curr = pq.remove();
-            if(!vis[curr.v]){
+            if (!vis[curr.v]) {
                 vis[curr.v] = true;
                 finalCost += curr.cost;
 
-                for(int i=0; i<graph[curr.v].size(); i++){
+                for (int i = 0; i < graph[curr.v].size(); i++) {
                     Edge e = graph[curr.v].get(i);
                     pq.add(new Pair(e.dest, e.wt));
                 }
             }
         }
 
-        System.out.println("Final(Min) cost of MST is = "+finalCost);
+        System.out.println("Final(Min) cost of MST is = " + finalCost);
     }
+
     public static void main(String[] args) {
-        int V=6;
+        int V = 6;
         @SuppressWarnings("unchecked")
         ArrayList<Edge>[] graph = new ArrayList[V];
         createGraph(graph);

@@ -1,15 +1,19 @@
+package Graph;
+
 import java.util.*;
+
 public class GraphKosaraju {
-    static class Edge{
+    static class Edge {
         int src, dest;
-        public Edge(int s, int d){
+
+        public Edge(int s, int d) {
             this.src = s;
             this.dest = d;
         }
     }
 
-    public static void createGraph(ArrayList<Edge> graph[]){
-        for(int i=0; i<graph.length; i++){
+    public static void createGraph(ArrayList<Edge> graph[]) {
+        for (int i = 0; i < graph.length; i++) {
             graph[i] = new ArrayList<>();
         }
 
@@ -23,12 +27,12 @@ public class GraphKosaraju {
         graph[3].add(new Edge(3, 4));
     }
 
-    public static void topsort(ArrayList<Edge> graph[], int curr, boolean vis[], Stack<Integer> s){
+    public static void topsort(ArrayList<Edge> graph[], int curr, boolean vis[], Stack<Integer> s) {
         vis[curr] = true;
 
-        for(int i=0; i<graph[curr].size(); i++){
+        for (int i = 0; i < graph[curr].size(); i++) {
             Edge e = graph[curr].get(i);
-            if(!vis[e.dest]){
+            if (!vis[e.dest]) {
                 topsort(graph, e.dest, vis, s);
             }
         }
@@ -36,54 +40,55 @@ public class GraphKosaraju {
         s.push(curr);
     }
 
-    public static void dfs(ArrayList<Edge> graph[], int curr, boolean vis[]){
+    public static void dfs(ArrayList<Edge> graph[], int curr, boolean vis[]) {
         vis[curr] = true;
-        System.out.print(curr+" ");
+        System.out.print(curr + " ");
 
-        for(int i=0; i<graph[curr].size(); i++){
+        for (int i = 0; i < graph[curr].size(); i++) {
             Edge e = graph[curr].get(i);
-            if(!vis[e.dest]){
+            if (!vis[e.dest]) {
                 dfs(graph, e.dest, vis);
             }
         }
     }
 
-    public static void kosaRaju(ArrayList<Edge> graph[], int V){
-        //step-1
+    public static void kosaRaju(ArrayList<Edge> graph[], int V) {
+        // step-1
         boolean vis[] = new boolean[V];
         Stack<Integer> s = new Stack<>();
 
-        for(int i=0; i<V; i++){
-            if(!vis[i]){
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) {
                 topsort(graph, i, vis, s);
             }
         }
 
-        //step-2
+        // step-2
         @SuppressWarnings("unchecked")
         ArrayList<Edge> transpose[] = new ArrayList[V];
-        for(int i=0; i<transpose.length; i++){
+        for (int i = 0; i < transpose.length; i++) {
             vis[i] = false;
             transpose[i] = new ArrayList<>();
         }
 
-        for(int i=0; i<V; i++){
-            for(int j=0; j<graph[i].size(); j++){
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < graph[i].size(); j++) {
                 Edge e = graph[i].get(j);
-                transpose[e.dest].add(new Edge(e.dest, e.src));//reverse edge
+                transpose[e.dest].add(new Edge(e.dest, e.src));// reverse edge
             }
         }
 
-        //step-3
-        while(!s.isEmpty()){
+        // step-3
+        while (!s.isEmpty()) {
             int curr = s.pop();
-            if(!vis[curr]){
+            if (!vis[curr]) {
                 System.out.print("SCC ->");
                 dfs(transpose, curr, vis);
                 System.out.println();
             }
         }
     }
+
     public static void main(String[] args) {
         int V = 5;
         @SuppressWarnings("unchecked")

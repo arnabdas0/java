@@ -1,3 +1,5 @@
+package Graph;
+
 import java.util.*;
 
 public class GraphTopSortKahn {
@@ -26,34 +28,35 @@ public class GraphTopSortKahn {
         graph[5].add(new Edge(5, 2));
     }
 
-    public static void countIndeg(ArrayList<Edge>[] graph, int indeg[]){
-        for(int i=0; i<graph.length; i++){
-            for(int j=0; j<graph[i].size(); j++){
+    public static void countIndeg(ArrayList<Edge>[] graph, int indeg[]) {
+        for (int i = 0; i < graph.length; i++) {
+            for (int j = 0; j < graph[i].size(); j++) {
                 Edge e = graph[i].get(j);
                 indeg[e.dest]++;
             }
         }
     }
-    public static void topSort(ArrayList<Edge>[] graph){
+
+    public static void topSort(ArrayList<Edge>[] graph) {
         int indeg[] = new int[graph.length];
         countIndeg(graph, indeg);
         Queue<Integer> q = new LinkedList<>();
 
-        for(int i=0; i<indeg.length; i++){
-            if(indeg[i] == 0){
+        for (int i = 0; i < indeg.length; i++) {
+            if (indeg[i] == 0) {
                 q.add(i);
             }
         }
 
-        //bfs
-        while(!q.isEmpty()){
+        // bfs
+        while (!q.isEmpty()) {
             int curr = q.remove();
             System.out.print(curr + " ");
 
-            for(int i=0; i<graph[curr].size(); i++){
+            for (int i = 0; i < graph[curr].size(); i++) {
                 Edge e = graph[curr].get(i);
                 indeg[e.dest]--;
-                if(indeg[e.dest] == 0){
+                if (indeg[e.dest] == 0) {
                     q.add(e.dest);
                 }
             }
@@ -61,6 +64,7 @@ public class GraphTopSortKahn {
 
         System.out.println();
     }
+
     public static void main(String[] args) {
         int V = 6;
         @SuppressWarnings("unchecked")
