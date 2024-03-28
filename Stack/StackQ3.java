@@ -1,7 +1,10 @@
+package Stack;
+
 import java.util.*;
+
 public class StackQ3 {
-    public static void pushAtBottom(Stack<Integer> s, int data){
-        if(s.isEmpty()){
+    public static void pushAtBottom(Stack<Integer> s, int data) {
+        if (s.isEmpty()) {
             s.push(data);
             return;
         }
@@ -10,8 +13,8 @@ public class StackQ3 {
         s.push(top);
     }
 
-    public static void reversStack(Stack<Integer> s){
-        if(s.isEmpty()){
+    public static void reversStack(Stack<Integer> s) {
+        if (s.isEmpty()) {
             return;
         }
         int top = s.pop();
@@ -19,12 +22,13 @@ public class StackQ3 {
         pushAtBottom(s, top);
     }
 
-    public static void printStack(Stack<Integer> s){
-        while(!s.isEmpty()){
+    public static void printStack(Stack<Integer> s) {
+        while (!s.isEmpty()) {
             System.out.println(s.pop());
         }
     }
-    public static void main(String args[]){
+
+    public static void main(String args[]) {
         Stack<Integer> s = new Stack<>();
         s.push(1);
         s.push(2);
